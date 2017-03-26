@@ -1,22 +1,29 @@
 #In The Name of Allah
 
-all: main.run
+CXX = g++
+TARGET = main.run
+OBJ = funcs.o
+HEADERS = funcs.hpp
+SOURCES = funcs.cxx
+MAIN = main
+
+all: $(TARGET)
 .PHONY: all
 
-main.run: main.o funcs.o
-	g++ -o main.run main.o funcs.o
+$(TARGET): $(OBJ) $(MAIN).o
+	$(CXX) -o $(TARGET) $(OBJ) $(MAIN).o
 
-funcs.o: funcs.hpp funcs.cxx
-	g++ -c -o funcs.o funcs.cxx
+$(OBJ): $(SOURCES) $(HEADERS)
+	$(CXX) -c -o funcs.o $(SOURCES)
 
-main.o: main.cpp
-	g++ -c -o main.o main.cpp
+$(MAIN).o: $(MAIN).cpp $(HEADERS)
+	$(CXX) -c -o $(MAIN).o $(MAIN).cpp
 
 clean:
 	rm -rf *.o
 .PHONY: clean
 
-clean/all: clean
+distclean clean/all: clean
 	rm -rf main.run
 .PHONY: clean/all
 
